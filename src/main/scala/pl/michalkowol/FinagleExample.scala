@@ -37,9 +37,9 @@ object FinagleClient {
   def main(args: Array[String]): Unit = {
     val calculator = Thrift.newIface[Calculator.FutureIface]("localhost:8080")
     val pingPong = Thrift.newIface[PingPong.FutureIface]("localhost:8082")
-    pingPong.ping()
-    pingPong.pong()
+    val ping = pingPong.ping()
+    val pong = pingPong.pong()
     val result = calculator.add(1, 2)
-    println(Await.result(result))
+    println(Await.result(Future.join(ping, pong, result)))
   }
 }
