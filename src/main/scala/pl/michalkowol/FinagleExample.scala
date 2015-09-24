@@ -29,14 +29,14 @@ class FinagleServer(implicit ec: ExecutionContext) {
       "ping"
     }
   }
-  val calculatorServer = Thrift.serveIface("localhost:8080", calculator)
-  val pingPongServer = Thrift.serveIface("localhost:8082", pingPong)
+  val calculatorServer = Thrift.serveIface(":8080", calculator)
+  val pingPongServer = Thrift.serveIface(":8082", pingPong)
 }
 
 object FinagleClient {
   def main(args: Array[String]): Unit = {
-    val calculator = Thrift.newIface[Calculator.FutureIface]("localhost:8080")
-    val pingPong = Thrift.newIface[PingPong.FutureIface]("localhost:8082")
+    val calculator = Thrift.newIface[Calculator.FutureIface]("192.168.0.15:8080")
+    val pingPong = Thrift.newIface[PingPong.FutureIface]("192.168.0.15:8082")
     val ping = pingPong.ping()
     val pong = pingPong.pong()
     val result = calculator.add(1, 2)
